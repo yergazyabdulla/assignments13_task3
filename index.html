@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+  <title>Vue Carousel</title>
+</head>
+<body>
+    <div id="app">
+      <div class="carousel">
+        <div class="carousel-item" :class="{ active: currentIndex === index }" v-for="(item, index) in carouselItems" :key="index">
+          <img :src="item.src" :alt="item.alt" />
+          <div class="carousel-caption" v-if="item.caption">{{ item.caption }}</div>
+        </div>
+        <button class="carousel-button prev" @click="prevItem">&lt;</button>
+        <button class="carousel-button next" @click="nextItem">&gt;</button>
+        <div class="carousel-indicators">
+          <span v-for="(item, index) in carouselItems" :key="index" class="indicator" :class="{ active: currentIndex === index }" @click="goToItem(index)"></span>
+        </div>
+      </div>
+    </div>
+  
+    <script>
+      new Vue({
+        el: '#app',
+        data: {
+          carouselItems: [
+            { src: 'assets/1.jpg', alt: 'Image 1', caption: 'Caption for Image 1' },
+            { src: 'assets/2.jpg', alt: 'Image 2', caption: 'Caption for Image 2' },
+            { src: 'assets/3.jpg', alt: 'Image 3', caption: 'Caption for Image 3' },
+            { src: 'assets/4.jpg', alt: 'Image 4', caption: 'Caption for Image 4' },
+            
+          ],
+          currentIndex: 0
+        },
+        methods: {
+          nextItem: function() {
+            this.currentIndex = (this.currentIndex + 1) % this.carouselItems.length;
+          },
+          prevItem: function() {
+            this.currentIndex = (this.currentIndex - 1 + this.carouselItems.length) % this.carouselItems.length;
+          },
+          goToItem: function(index) {
+            this.currentIndex = index;
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
